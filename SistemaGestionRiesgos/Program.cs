@@ -10,6 +10,13 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<GestionDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBCONNECTION")));
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.IsEssential = true;
+});
     
 
 var app = builder.Build();
@@ -22,8 +29,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 

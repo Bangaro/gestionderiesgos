@@ -1,8 +1,31 @@
 ﻿@using Microsoft.IdentityModel.Tokens
 @model IEnumerable<SistemaGestionRiesgos.DTO.RiesgosPlanesViewModel>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Home Page";
+    // Obtener los valores de la sesión para cada combinación de probabilidad e impacto
+    int? bajoBajoValue = HttpContextAccessor.HttpContext.Session.GetInt32("BajoBajo");
+    int? bajoModeradoValue = HttpContextAccessor.HttpContext.Session.GetInt32("BajoModerado");
+    int? bajoAltoValue = HttpContextAccessor.HttpContext.Session.GetInt32("BajoAlto");
+    int? bajoMuyAltoValue = HttpContextAccessor.HttpContext.Session.GetInt32("BajoMuyAlto");
+
+    int? moderadoBajoValue = HttpContextAccessor.HttpContext.Session.GetInt32("ModeradoBajo");
+    int? moderadoModeradoValue = HttpContextAccessor.HttpContext.Session.GetInt32("ModeradoModerado");
+    int? moderadoAltoValue = HttpContextAccessor.HttpContext.Session.GetInt32("ModeradoAlto");
+    int? moderadoMuyAltoValue = HttpContextAccessor.HttpContext.Session.GetInt32("ModeradoMuyAlto");
+
+    int? altoBajoValue = HttpContextAccessor.HttpContext.Session.GetInt32("AltoBajo");
+    int? altoModeradoValue = HttpContextAccessor.HttpContext.Session.GetInt32("AltoModerado");
+    int? altoAltoValue = HttpContextAccessor.HttpContext.Session.GetInt32("AltoAlto");
+    int? altoMuyAltoValue = HttpContextAccessor.HttpContext.Session.GetInt32("AltoMuyAlto");
+
+    int? muyAltoBajoValue = HttpContextAccessor.HttpContext.Session.GetInt32("MuyAltoBajo");
+    int? muyAltoModeradoValue = HttpContextAccessor.HttpContext.Session.GetInt32("MuyAltoModerado");
+    int? muyAltoAltoValue = HttpContextAccessor.HttpContext.Session.GetInt32("MuyAltoAlto");
+    int? muyAltoMuyAltoValue = HttpContextAccessor.HttpContext.Session.GetInt32("MuyAltoMuyAlto");
+
+    
 }
 
 <div class="container">
@@ -41,26 +64,28 @@
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="Bajo">
                                     <button type="submit" class="btn verde btn-block">
-                                        @ViewBag.BajoBajo
+                                        @bajoBajoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="Bajo">
                                     <button type="submit" class="btn verde btn-block  ">
-                                        @ViewBag.ModeradoBajo 
+                                        @moderadoBajoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="Bajo">
                                     <button type="submit" class="btn verde btn-block">
+                                        @altoBajoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
-                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="MuyAlto" asp-route-impacto="Bajo">
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Muy Alto" asp-route-impacto="Bajo">
                                     <button type="submit" class="btn verde btn-block">
+                                        @muyAltoBajoValue
                                     </button>
                                 </form>
                             </td>
@@ -70,24 +95,28 @@
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="Moderado">
                                     <button type="submit" class="btn verde btn-block">
+                                        @bajoModeradoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="Moderado">
                                     <button type="submit" class="btn amarillo btn-block">
+                                        @moderadoModeradoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="Moderado">
                                     <button type="submit" class="btn amarillo btn-block">
+                                        @altoModeradoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
-                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="MuyAlto" asp-route-impacto="Moderado">
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Muy Alto" asp-route-impacto="Moderado">
                                     <button type="submit" class="btn amarillo btn-block">
+                                        @muyAltoModeradoValue
                                     </button>
                                 </form>
                             </td>
@@ -97,24 +126,28 @@
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="Alto">
                                     <button type="submit" class="btn verde btn-block">
+                                        @bajoAltoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="Alto">
                                     <button type="submit" class="btn amarillo btn-block">
+                                        @moderadoAltoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
                                 <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="Alto">
                                     <button type="submit" class="btn amarillo btn-block">
+                                        @altoAltoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
-                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="MuyAlto" asp-route-impacto="Alto">
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Muy Alto" asp-route-impacto="Alto">
                                     <button type="submit" class="btn rojo btn-block">
+                                        @muyAltoAltoValue
                                     </button>
                                 </form>
                             </td>
@@ -122,26 +155,30 @@
                         <tr>
                             <th scope="row">Muy Alto</th>
                             <td>
-                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="MuyAlto">
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="Muy Alto">
                                     <button type="submit" class="btn verde btn-block">
+                                        @bajoMuyAltoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
-                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="MuyAlto">
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="Muy Alto">
                                     <button type="submit" class="btn amarillo btn-block">
+                                        @moderadoMuyAltoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
-                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="MuyAlto">
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="Muy Alto">
                                     <button type="submit" class="btn rojo btn-block">
+                                        @altoMuyAltoValue
                                     </button>
                                 </form>
                             </td>
                             <td>
-                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="MuyAlto" asp-route-impacto="MuyAlto">
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Muy Alto" asp-route-impacto="Muy Alto">
                                     <button type="submit" class="btn rojo btn-block">
+                                        @muyAltoMuyAltoValue
                                     </button>
                                 </form>
                             </td>
@@ -184,6 +221,8 @@
                         <h5 class="card-title">@item.Riesgo.Titulo</h5>
                         <p class="card-text">Causa: @item.Riesgo.Causa</p>
                         <p class="card-text">Consecuencia: @item.Riesgo.Consecuencia</p>
+                        <p class="card-text">Impacto: @item.Riesgo.Impacto</p>
+                        <p class="card-text">Probabilidad: @item.Riesgo.Probabilidad</p>
 
                         <!-- Mostrar información del Plan si existe -->
                         @if (item.Plan != null)
