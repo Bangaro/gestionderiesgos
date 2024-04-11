@@ -20,3 +20,21 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+
+/* Clase con color #7ABD7E (Verde) */
+.verde {
+  background-color: #7ABD7E;
+}
+
+/* Clase con color #F8D66D (Amarillo) */
+.amarillo {
+  background-color: #F8D66D;
+}
+
+/* Clase con color #FF6961 (Rojo) */
+.rojo {
+  background-color: #FF6961;
+}

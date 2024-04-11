@@ -11,9 +11,9 @@ public partial class Riesgo
 
     public string? Descripcion { get; set; }
 
-    public int? Impacto { get; set; }
+    public string? Impacto { get; set; }
 
-    public int? Probabilidad { get; set; }
+    public string? Probabilidad { get; set; }
 
     public string? Causa { get; set; }
 

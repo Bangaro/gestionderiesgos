@@ -1,8 +1,210 @@
-﻿@{
+﻿@using Microsoft.IdentityModel.Tokens
+@model IEnumerable<SistemaGestionRiesgos.DTO.RiesgosPlanesViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+    </div>
+
+    @if (ViewBag.InfoMessage != null)
+    {
+        <div class="alert alert-info" role="alert">
+            @ViewBag.InfoMessage
+        </div>
+    }
+
+    <div class="row mt-5"> 
+    <div class="col-md-7">
+        <!-- Matriz de impacto y probabilidad -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Matriz de Impacto y Probabilidad</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="vertical-text">Impacto / Probabilidad </th>
+                            <th scope="col">Bajo</th>
+                            <th scope="col">Moderado</th>
+                            <th scope="col">Alto</th>
+                            <th scope="col">Muy Alto</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Bajo</th>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="Bajo">
+                                    <button type="submit" class="btn verde btn-block">
+                                        @ViewBag.BajoBajo
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="Bajo">
+                                    <button type="submit" class="btn verde btn-block  ">
+                                        @ViewBag.ModeradoBajo 
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="Bajo">
+                                    <button type="submit" class="btn verde btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="MuyAlto" asp-route-impacto="Bajo">
+                                    <button type="submit" class="btn verde btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Moderado</th>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="Moderado">
+                                    <button type="submit" class="btn verde btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="Moderado">
+                                    <button type="submit" class="btn amarillo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="Moderado">
+                                    <button type="submit" class="btn amarillo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="MuyAlto" asp-route-impacto="Moderado">
+                                    <button type="submit" class="btn amarillo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Alto</th>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="Alto">
+                                    <button type="submit" class="btn verde btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="Alto">
+                                    <button type="submit" class="btn amarillo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="Alto">
+                                    <button type="submit" class="btn amarillo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="MuyAlto" asp-route-impacto="Alto">
+                                    <button type="submit" class="btn rojo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Muy Alto</th>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Bajo" asp-route-impacto="MuyAlto">
+                                    <button type="submit" class="btn verde btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Moderado" asp-route-impacto="MuyAlto">
+                                    <button type="submit" class="btn amarillo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="Alto" asp-route-impacto="MuyAlto">
+                                    <button type="submit" class="btn rojo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="FiltrarRiesgos" asp-route-probabilidad="MuyAlto" asp-route-impacto="MuyAlto">
+                                    <button type="submit" class="btn rojo btn-block">
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+
+
+
+    <div class="col-md-5">
+        <!-- Buscador y tarjetas con datos de riesgos y planes -->
+        <form method="post" action="@Url.Action("BuscarRiesgos", "Home")" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="Titulo" class="form-control" placeholder="Buscar por título...">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+        </form>
+
+        @if (Model.IsNullOrEmpty())
+        {
+            <div class="alert alert-info" role="alert">
+                @ViewBag.Message
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <!-- Tarjeta para mostrar información del Riesgo y Plan -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Riesgo.Titulo</h5>
+                        <p class="card-text">Causa: @item.Riesgo.Causa</p>
+                        <p class="card-text">Consecuencia: @item.Riesgo.Consecuencia</p>
+
+                        <!-- Mostrar información del Plan si existe -->
+                        @if (item.Plan != null)
+                        {
+                            <hr /> <!-- Línea divisoria para separar el riesgo del plan -->
+                            <h6 class="card-subtitle mb-2 text-muted">Plan Asociado</h6>
+                            <p class="card-text">Descripción: @item.Plan.Descripcion</p>
+                           
+                        }
+                        else
+                        {
+                            <p class="card-text"><em>No hay plan asociado.</em></p>
+                        }
+                    </div>
+                </div>
+
+            }
+        }
+    </div>
+    </div>
 </div>
+
+
+
