@@ -73,27 +73,28 @@ public class HomeController : Controller
     HttpContext.Session.SetInt32("MuyAltoMuyAlto", muyaltomuyalto);
     }
 
+    
     [HttpPost]
     public async Task<IActionResult> FiltrarRiesgos(string Impacto, string Probabilidad)
     {
         // Obtener los Riesgos que coinciden con el impacto y la probabilidad
-        var riesgos =  await _context.Riesgos
+        var riesgos = await _context.Riesgos
             .Where(r => r.Impacto == Impacto && r.Probabilidad == Probabilidad)
             .ToListAsync();
 
         List<RiesgosPlanesViewModel> listaRiesgosPlanes = new List<RiesgosPlanesViewModel>();
 
-        // Iterar sobre cada Riesgo y obtener el Plan correspondiente (si existe)
+        // Iterar sobre cada Riesgo
         foreach (var riesgo in riesgos)
         {
-            // Buscar el Plan asociado al Riesgo (si existe)
-            var plan = await _context.Planes.FirstOrDefaultAsync(p => p.IdRiesgo == riesgo.IdRiesgo);
+            // Obtener todos los Planes asociados al Riesgo
+            var planes = await _context.Planes.Where(p => p.IdRiesgo == riesgo.IdRiesgo).ToListAsync();
 
             // Crear un nuevo RiesgosPlanesViewModel y agregarlo a la lista
             var riesgosPlanesViewModel = new RiesgosPlanesViewModel
             {
                 Riesgo = riesgo,
-                Plan = plan // Puede ser null si no hay un Plan asociado al Riesgo
+                Planes = planes // Asignar la lista de Planes asociados al Riesgo
             };
 
             listaRiesgosPlanes.Add(riesgosPlanesViewModel);
@@ -108,16 +109,15 @@ public class HomeController : Controller
     {
         // Obtener todos los riesgos o filtrar por título si se proporciona uno
         var riesgosQuery = _context.Riesgos.AsQueryable();
-            
+
         if (string.IsNullOrEmpty(Titulo))
         {
             ViewBag.Message = "Ingresa un valor para realizar la búsqueda";
             return View("Index");
-            
         }
 
         riesgosQuery = riesgosQuery.Where(r => EF.Functions.Like(r.Titulo, $"%{Titulo}%"));
-        
+
         var riesgos = await riesgosQuery.ToListAsync();
 
         // Crear la lista de RiesgosPlanesViewModel
@@ -125,20 +125,20 @@ public class HomeController : Controller
 
         foreach (var riesgo in riesgos)
         {
-            // Buscar el Plan asociado al Riesgo (si existe)
-            var plan = await _context.Planes.FirstOrDefaultAsync(p => p.IdRiesgo == riesgo.IdRiesgo);
+            // Obtener todos los Planes asociados al Riesgo
+            var planes = await _context.Planes.Where(p => p.IdRiesgo == riesgo.IdRiesgo).ToListAsync();
 
             // Crear un nuevo RiesgosPlanesViewModel y agregarlo a la lista
             var riesgosPlanesViewModel = new RiesgosPlanesViewModel
             {
                 Riesgo = riesgo,
-                Plan = plan // Puede ser null si no hay un Plan asociado al Riesgo
+                Planes = planes // Asignar la lista de Planes asociados al Riesgo
             };
 
             listaRiesgosPlanes.Add(riesgosPlanesViewModel);
         }
 
-        if (listaRiesgosPlanes.IsNullOrEmpty())
+        if (!listaRiesgosPlanes.Any())
         {
             ViewBag.Message = "No se encontraron riesgos que coincidan con la búsqueda.";
         }

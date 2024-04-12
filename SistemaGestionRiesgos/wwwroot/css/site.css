@@ -23,18 +23,62 @@ body {
 
 
 
+.light-green{
+  background-color: #00cc90;
+}
 
 /* Clase con color #7ABD7E (Verde) */
-.verde {
+.green {
   background-color: #7ABD7E;
 }
 
 /* Clase con color #F8D66D (Amarillo) */
-.amarillo {
+.yellow {
   background-color: #F8D66D;
 }
 
 /* Clase con color #FF6961 (Rojo) */
-.rojo {
+.red {
   background-color: #FF6961;
+}
+
+.salmon{
+  background-color: #fd6868;
+}
+
+.light-blue{
+  background-color: #0097ff;
+}
+
+.dark-blue{
+  background-color: #143247;
+}
+
+.silver{
+  background-color: #bcbcbc;
+}
+
+.porcelain{
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #e2e9e8;
+}
+
+.dark-gray{
+  background-color: #171717;
+}
+
+.dark-gray-text{
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #171717;
+}
+
+.dark-gray-text-thin{
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: rgba(23, 23, 23, 0.9);
 }
