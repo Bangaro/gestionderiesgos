@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using SistemaGestionRiesgos.Context;
 using SistemaGestionRiesgos.DTO;
 using SistemaGestionRiesgos.Models;
+using SistemaGestionRiesgos.Services;
+
 
 namespace SistemaGestionRiesgos.Controllers
 {
     public class RiesgosController : Controller
     {
         private readonly GestionDbContext _context;
+        private readonly IRiesgosService _service;
 
-        public RiesgosController(GestionDbContext context)
+        public RiesgosController(GestionDbContext context, IRiesgosService service)
         {
             _context = context;
+            _service = service;
         }
 
         // GET: Riesgos
@@ -36,29 +40,16 @@ namespace SistemaGestionRiesgos.Controllers
         [HttpPost]
         public async Task<IActionResult> SeleccionarRiesgo(int Riesgo, string TipoPlan)
         {
-            // Obtener el Riesgo por su Id
-            var riesgo = await _context.Riesgos.FirstOrDefaultAsync(r => r.IdRiesgo == Riesgo);
-
-            if (riesgo == null)
+            try
             {
-                // Manejar el caso donde no se encuentra el Riesgo
-                return NotFound(); // Puedes devolver una vista específica para manejar el error
+                var riesgosPlanesViewModel = await _service.SeleccionarRiesgo(Riesgo, TipoPlan);
+                // Pasar la lista de RiesgosPlanesViewModel a la vista
+                return View("Index", new List<RiesgosPlanesViewModel> { riesgosPlanesViewModel });
             }
-
-            // Obtener todos los Planes asociados al Riesgo y al TipoPlan especificado
-            var planes = await _context.Planes
-                .Where(p => p.IdRiesgo == riesgo.IdRiesgo && p.TipoPlan == TipoPlan)
-                .ToListAsync();
-
-            // Crear un nuevo RiesgosPlanesViewModel y agregarlo a la lista
-            var riesgosPlanesViewModel = new RiesgosPlanesViewModel
+            catch (InvalidOperationException ex)
             {
-                Riesgo = riesgo,
-                Planes = planes // Asignar la lista de Planes asociados al Riesgo
-            };
-
-            // Pasar la lista de RiesgosPlanesViewModel a la vista
-            return View("Index", new List<RiesgosPlanesViewModel> { riesgosPlanesViewModel });
+                return NotFound(); // Riesgo no encontrado
+            }
         }
 
 
@@ -70,19 +61,16 @@ namespace SistemaGestionRiesgos.Controllers
         }
 
         // POST: Riesgos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdRiesgo,Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia,IdUsuario")] Riesgo riesgo)
+        public async Task<IActionResult> Create([Bind("IdRiesgo,Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia,IdUsuario")] Riesgo Riesgo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(riesgo);
-                await _context.SaveChangesAsync();
+                _service.CrearRiesgo(Riesgo);
                 return RedirectToAction("Index","Home");
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", riesgo.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", Riesgo.IdUsuario);
             return RedirectToAction("Index","Home");
         }
 
@@ -99,13 +87,11 @@ namespace SistemaGestionRiesgos.Controllers
             {
                 return NotFound();
             }
+
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", riesgo.IdUsuario);
             return View(riesgo);
         }
 
-        // POST: Riesgos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdRiesgo,Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia,IdUsuario")] Riesgo riesgo)
@@ -137,40 +123,6 @@ namespace SistemaGestionRiesgos.Controllers
             }
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", riesgo.IdUsuario);
             return View(riesgo);
-        }
-
-        // GET: Riesgos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var riesgo = await _context.Riesgos
-                .Include(r => r.IdUsuarioNavigation)
-                .FirstOrDefaultAsync(m => m.IdRiesgo == id);
-            if (riesgo == null)
-            {
-                return NotFound();
-            }
-
-            return View(riesgo);
-        }
-
-        // POST: Riesgos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var riesgo = await _context.Riesgos.FindAsync(id);
-            if (riesgo != null)
-            {
-                _context.Riesgos.Remove(riesgo);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool RiesgoExists(int id)

@@ -16,6 +16,8 @@ public partial class GestionDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Bitacora> Bitacoras { get; set; }
+
     public virtual DbSet<Plan> Planes { get; set; }
 
     public virtual DbSet<Riesgo> Riesgos { get; set; }
@@ -28,32 +30,53 @@ public partial class GestionDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Plan>(entity =>
+        modelBuilder.Entity<Bitacora>(entity =>
         {
-            entity.HasKey(e => e.IdPlan).HasName("PK__Planes__FB8102AEE1D18B49");
+            entity.HasKey(e => e.IdBitacora).HasName("PK__Bitacora__ED3A1B135B74535A");
 
-            entity.HasIndex(e => e.IdRiesgo, "IX_Planes_IdRiesgo");
-
-            entity.HasIndex(e => e.IdUsuario, "IX_Planes_IdUsuarioNavigationIdUsuario");
+            entity.ToTable("Bitacora");
 
             entity.Property(e => e.Descripcion)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Fecha)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Tabla)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.TipoAccion)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Bitacoras)
+                .HasForeignKey(d => d.IdUsuario)
+                .HasConstraintName("FK__Bitacora__IdUsua__5CD6CB2B");
+        });
+
+        modelBuilder.Entity<Plan>(entity =>
+        {
+            entity.HasKey(e => e.IdPlan).HasName("PK__Planes__FB8102AE311DE5F4");
+
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.TipoPlan)
                 .HasMaxLength(255)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.IdRiesgoNavigation).WithMany(p => p.Planes)
                 .HasForeignKey(d => d.IdRiesgo)
-                .HasConstraintName("FK__Planes__IdRiesgo__32E0915F");
+                .HasConstraintName("FK__Planes__IdRiesgo__5441852A");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Planes)
                 .HasForeignKey(d => d.IdUsuario)
-                .HasConstraintName("FK_Planes_Usuarios_IdUsuarioNavigationIdUsuario");
+                .HasConstraintName("FK__Planes__IdUsuari__5535A963");
         });
 
         modelBuilder.Entity<Riesgo>(entity =>
         {
-            entity.HasKey(e => e.IdRiesgo).HasName("PK__Riesgos__5D672788F5B82265");
-
-            entity.HasIndex(e => e.IdUsuario, "IX_Riesgos_IdUsuarioNavigationIdUsuario");
+            entity.HasKey(e => e.IdRiesgo).HasName("PK__Riesgos__5D6727887F92627F");
 
             entity.Property(e => e.Causa)
                 .HasMaxLength(255)
@@ -76,7 +99,7 @@ public partial class GestionDbContext : DbContext
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Riesgos)
                 .HasForeignKey(d => d.IdUsuario)
-                .HasConstraintName("FK_Riesgos_Usuarios_IdUsuarioNavigationIdUsuario");
+                .HasConstraintName("FK__Riesgos__IdUsuar__4D94879B");
         });
 
         modelBuilder.Entity<Usuario>(entity =>

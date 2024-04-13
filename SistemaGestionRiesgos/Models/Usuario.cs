@@ -13,6 +13,8 @@ public partial class Usuario
 
     public string? Contraseña { get; set; }
 
+    public virtual ICollection<Bitacora> Bitacoras { get; set; } = new List<Bitacora>();
+
     public virtual ICollection<Plan> Planes { get; set; } = new List<Plan>();
 
     public virtual ICollection<Riesgo> Riesgos { get; set; } = new List<Riesgo>();

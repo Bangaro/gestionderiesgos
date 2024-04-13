@@ -1,6 +1,6 @@
 namespace SistemaGestionRiesgos.DTO;
 
-public class AddPlan
+public class PlanDTO
 {
     
 }

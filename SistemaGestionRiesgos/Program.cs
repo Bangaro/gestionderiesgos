@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaGestionRiesgos.Context;
+using SistemaGestionRiesgos.Controllers;
+using SistemaGestionRiesgos.Services;
+using SistemaGestionRiesgos.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 //Add dbContext 
-
+//
 builder.Services.AddDbContext<GestionDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBCONNECTION")));
+
+builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<IBitacoraService, BitacoraService>();
+builder.Services.AddScoped<IPlanesService, PlanesService>();
+builder.Services.AddScoped<IRiesgosService, RiesgosService>();
 
 builder.Services.AddHttpContextAccessor();
 
