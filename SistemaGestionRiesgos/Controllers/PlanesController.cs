@@ -30,8 +30,19 @@ namespace SistemaGestionRiesgos.Controllers
         // GET: Planes/Create
         public IActionResult Create()
         {
-            ViewData["IdRiesgo"] = new SelectList(_context.Riesgos, "IdRiesgo", "IdRiesgo");
+            
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario");
+            
+            // Obtener todos los riesgos disponibles desde la base de datos
+            var riesgos = _context.Riesgos.ToList();
+
+            // Crear una lista de SelectListItem para el dropdown
+            ViewBag.Riesgos = riesgos.Select(r => new SelectListItem
+            {
+                Text = r.Titulo, // Mostrar el título del riesgo en el dropdown
+                Value = r.IdRiesgo.ToString() // Almacenar el ID del riesgo como valor
+            });
+
             return View();
         }
 
@@ -46,10 +57,11 @@ namespace SistemaGestionRiesgos.Controllers
             {
                 _context.Add(plan);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Home");
             }
             ViewData["IdRiesgo"] = new SelectList(_context.Riesgos, "IdRiesgo", "IdRiesgo", plan.IdRiesgo);
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", plan.IdUsuario);
+            
             return View(plan);
         }
 
@@ -71,9 +83,7 @@ namespace SistemaGestionRiesgos.Controllers
             return View(plan);
         }
 
-        // POST: Planes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdPlan,TipoPlan,Descripcion,IdRiesgo,IdUsuario")] Plan plan)

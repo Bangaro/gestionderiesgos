@@ -30,11 +30,6 @@ namespace SistemaGestionRiesgos.Controllers
             return View(riesgosPlanesViewModels);
         }
         
-        public IActionResult RedirectToIndex()
-        {
-            // Redirigir explícitamente a la página Index del controlador Home
-            return RedirectToAction("Index","Home");
-        }
 
         
         [HttpPost]

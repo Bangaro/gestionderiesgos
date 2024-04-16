@@ -5,14 +5,13 @@
 }
 
 <div class="row mt-3">
-    <div class="col-sm-6 text-center"> <!-- Div a la izquierda (ocupará 6 columnas en pantallas pequeñas o mayores) -->
+    <div class="col-sm-6 text-center"> 
         <h1>Riesgo</h1>
     </div>
-    <div class="col-sm-6 text-center"> <!-- Div a la derecha (ocupará 6 columnas en pantallas pequeñas o mayores), 'text-end' alineará el contenido a la derecha -->
+    <div class="col-sm-6 text-center"> 
         <h1>Planes</h1>
     </div>
 </div>
-
 
 @foreach (var item in Model)
 {
@@ -31,12 +30,12 @@
             </div>
             
             <div class="row">
-                <form  asp-action="SeleccionarRiesgo" asp-route-riesgo="@item.Riesgo.IdRiesgo" asp-route-tipoPlan="Contingencia" class="col-6 text-end">
+                <form asp-action="SeleccionarRiesgo" asp-route-riesgo="@item.Riesgo.IdRiesgo" asp-route-tipoPlan="Contingencia" class="col-6 text-end">
                     <button type="submit" class="btn light-green porcelain">
                         Contingencia
                     </button>
                 </form>
-                <form  asp-action="SeleccionarRiesgo" asp-route-riesgo="@item.Riesgo.IdRiesgo" asp-route-tipoPlan="Continuidad" class="col-6 text-start">
+                <form asp-action="SeleccionarRiesgo" asp-route-riesgo="@item.Riesgo.IdRiesgo" asp-route-tipoPlan="Continuidad" class="col-6 text-start">
                     <button type="submit" class="btn salmon porcelain">
                         Continuidad
                     </button>
@@ -44,21 +43,21 @@
             </div>
         </div>
 
-        @if (item.Planes != null && item.Planes.Any())
-        {
-            @foreach (var plan in item.Planes)
+        <div class="col-md-5">
+            @if (item.Planes != null && item.Planes.Any())
             {
-                <div class="col-md-5">
-                    <!-- Tarjeta para mostrar información del Plan -->
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title dark-gray-text">Tipo de plan: @plan.TipoPlan</h5>
-                            <p class="card-text dark-gray-text-thin">Descripción: @plan.Descripcion</p>
+                <div class="d-flex flex-column justify-content-end">
+                    @foreach (var plan in item.Planes)
+                    {
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title dark-gray-text">Tipo de plan: @plan.TipoPlan</h5>
+                                <p class="card-text dark-gray-text-thin">Descripción: @plan.Descripcion</p>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             }
-        }
+        </div>
     </div>
 }
-

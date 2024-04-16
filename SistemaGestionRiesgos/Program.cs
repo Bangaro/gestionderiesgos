@@ -14,7 +14,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<GestionDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBCONNECTION")));
 
-builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddScoped<IBitacoraService, BitacoraService>();
 builder.Services.AddScoped<IPlanesService, PlanesService>();
 builder.Services.AddScoped<IRiesgosService, RiesgosService>();

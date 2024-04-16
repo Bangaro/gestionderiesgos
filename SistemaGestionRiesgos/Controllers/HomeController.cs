@@ -13,9 +13,9 @@ namespace SistemaGestionRiesgos.Controllers;
 public class HomeController : Controller
 {
     private readonly GestionDbContext _context;
-    private readonly IHomeService _service;
+    private readonly IRiesgosService _service;
 
-    public HomeController(GestionDbContext context, IHomeService service)
+    public HomeController(GestionDbContext context, IRiesgosService service)
     {
         _context = context;
         _service = service;
@@ -43,8 +43,8 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> BuscarRiesgos(string Titulo)
     {
-        // Obtener todos los riesgos o filtrar por título si se proporciona uno
-        var riesgosQuery = _context.Riesgos.AsQueryable();
+        // // Obtener todos los riesgos o filtrar por título si se proporciona uno
+        // var riesgosQuery = _context.Riesgos.AsQueryable();
 
         if (string.IsNullOrEmpty(Titulo))
         {

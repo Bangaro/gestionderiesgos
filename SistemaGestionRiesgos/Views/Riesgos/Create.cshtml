@@ -30,10 +30,10 @@
                         <label asp-for="Impacto" class="control-label">Impacto:</label>
                         <select asp-for="Impacto" class="form-control">
                             <option value="">Seleccionar...</option>
-                            <option value="Bajo">Bajo</option>
-                            <option value="Moderado">Moderado</option>
-                            <option value="Alto">Alto</option>
-                            <option value="Muy Alto">Muy Alto</option>
+                            <option value="Bajo" class="light-green">Bajo</option>
+                            <option value="Moderado" class="yellow">Moderado</option>
+                            <option value="Alto" class="orange">Alto</option>
+                            <option value="Muy Alto" class="salmon">Muy Alto</option>
                         </select>
                         <span asp-validation-for="Impacto" class="text-danger"></span>
                     </div>
@@ -42,10 +42,10 @@
                         <label asp-for="Probabilidad" class="control-label">Probabilidad:</label>
                         <select asp-for="Probabilidad" class="form-control">
                             <option value="">Seleccionar...</option>
-                            <option value="Bajo">Bajo</option>
-                            <option value="Moderado">Moderado</option>
-                            <option value="Alto">Alto</option>
-                            <option value="Muy Alto">Muy Alto</option>
+                            <option value="Bajo" class="light-green">Bajo</option>
+                            <option value="Moderado" class="yellow">Moderado</option>
+                            <option value="Alto" class="orange">Alto</option>
+                            <option value="Muy Alto" class="salmon">Muy Alto</option>
                         </select>
                         <span asp-validation-for="Probabilidad" class="text-danger"></span>
                     </div>
@@ -73,7 +73,7 @@
 
                     <div class="form-group text-center mt-2">
                         <button type="submit" class="btn light-blue porcelain">Crear Riesgo</button>
-                        <a asp-action="Index" class="btn btn-secondary porcelain ml-2">Cancelar</a>
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary porcelain ml-2">Cancelar</a>
                     </div>
                 </form>
             </div>
