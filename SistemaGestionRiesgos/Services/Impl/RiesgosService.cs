@@ -111,27 +111,28 @@ public class RiesgosService: IRiesgosService
         return riesgosPlanesViewModel;
     }
 
-    public async void CrearRiesgo(Riesgo riesgo)
+    public async Task CrearRiesgo(Riesgo riesgo)
     {
         
-        Usuario usuarioConectado = await _usuariosService.ObtenerUsuarioConectado();
-        
-        riesgo.IdUsuario = usuarioConectado.IdUsuario;
+        // Obtener el usuario actual desde el contexto de HTTP
+        Usuario? user = await _usuariosService.ObtenerUsuarioConectado();
+
+        riesgo.IdUsuario = user.IdUsuario;
         
         _context.Add(riesgo);
         await _context.SaveChangesAsync();
 
-        var bitacora = new BitacoraDTO
+        var bitacora = new Bitacora
         {
-            Descripcion = ""+riesgo.Titulo,
+            Descripcion = "" + riesgo.Titulo,
             IdUsuario = riesgo.IdUsuario,
             Tabla = "Riesgos",
             TipoAccion = "Crear"
         };
-        
-        _bitacoraService.CrearBitacora(bitacora);
 
+        await _bitacoraService.CrearBitacora(bitacora);
     }
+
 
 
 }

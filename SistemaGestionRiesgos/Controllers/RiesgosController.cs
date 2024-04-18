@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -60,23 +61,20 @@ namespace SistemaGestionRiesgos.Controllers
             return View();
         }
 
-        // POST: Riesgos/Create
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdRiesgo,Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia")] Riesgo Riesgo)
+        public async Task<IActionResult> Create([Bind("Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia")] Riesgo riesgo)
         {
-            // Obtener el usuario actual desde el contexto de HTTP
-            
-            
-            
+
             if (ModelState.IsValid)
             {
-                _service.CrearRiesgo(Riesgo);
-                return RedirectToAction("Index","Home");
+                await _service.CrearRiesgo(riesgo); // Espera la finalización del método asincrónico
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index","Home");
+
+            return RedirectToAction("Index", "Home");
         }
+
 
         // GET: Riesgos/Edit/5
         public async Task<IActionResult> Edit(int? id)

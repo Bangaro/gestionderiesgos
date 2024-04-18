@@ -21,9 +21,9 @@ public class BitacoraService: IBitacoraService
         return listaBitacora;
     }
 
-    public async void CrearBitacora(BitacoraDTO bitacoraDto)
+    public async Task CrearBitacora(Bitacora bitacora)
     {
-        _context.Add(bitacoraDto);
+        _context.Add(bitacora);
         await _context.SaveChangesAsync();
     }
 }
