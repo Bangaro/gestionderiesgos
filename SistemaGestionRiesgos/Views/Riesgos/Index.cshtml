@@ -5,10 +5,10 @@
 }
 
 <div class="row mt-3">
-    <div class="col-sm-6 text-center"> 
+    <div class="col-sm-6 text-center">
         <h1>Riesgo</h1>
     </div>
-    <div class="col-sm-6 text-center"> 
+    <div class="col-sm-6 text-center">
         <h1>Planes</h1>
     </div>
 </div>
@@ -28,7 +28,7 @@
                     <p class="card-text dark-gray-text-thin">Probabilidad: @item.Riesgo.Probabilidad</p>
                 </div>
             </div>
-            
+
             <div class="row">
                 <form asp-action="SeleccionarRiesgo" asp-route-riesgo="@item.Riesgo.IdRiesgo" asp-route-tipoPlan="Contingencia" class="col-6 text-end">
                     <button type="submit" class="btn light-green porcelain">

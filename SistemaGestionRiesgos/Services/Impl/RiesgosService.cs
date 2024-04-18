@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaGestionRiesgos.Context;
@@ -13,11 +14,14 @@ public class RiesgosService: IRiesgosService
     
     private readonly GestionDbContext _context;
     private readonly IBitacoraService _bitacoraService;
+    private readonly IUsuariosService _usuariosService;
 
-    public RiesgosService(GestionDbContext context, IBitacoraService bitacoraService)
+
+    public RiesgosService(GestionDbContext context, IBitacoraService bitacoraService, IUsuariosService _usuariosService)
     {
         _context = context;
         _bitacoraService = bitacoraService;
+        this._usuariosService = _usuariosService;
     }
       
     public async Task<List<RiesgosPlanesViewModel>> FiltrarRiesgos(string Impacto, string Probabilidad)
@@ -109,6 +113,11 @@ public class RiesgosService: IRiesgosService
 
     public async void CrearRiesgo(Riesgo riesgo)
     {
+        
+        Usuario usuarioConectado = await _usuariosService.ObtenerUsuarioConectado();
+        
+        riesgo.IdUsuario = usuarioConectado.IdUsuario;
+        
         _context.Add(riesgo);
         await _context.SaveChangesAsync();
 

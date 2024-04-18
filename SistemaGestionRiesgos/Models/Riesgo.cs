@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaGestionRiesgos.Models;
 
 public partial class Riesgo
 {
+    [Key]
     public int IdRiesgo { get; set; }
 
     public string? Titulo { get; set; }

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +19,13 @@ namespace SistemaGestionRiesgos.Controllers
     {
         private readonly GestionDbContext _context;
         private readonly IRiesgosService _service;
+        private readonly IUsuariosService _userService;
 
-        public RiesgosController(GestionDbContext context, IRiesgosService service)
+        public RiesgosController(GestionDbContext context, IRiesgosService service, IUsuariosService userService)
         {
             _context = context;
             _service = service;
+            _userService = userService;
         }
 
         // GET: Riesgos
@@ -49,6 +53,7 @@ namespace SistemaGestionRiesgos.Controllers
 
 
         // GET: Riesgos/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario");
@@ -57,15 +62,19 @@ namespace SistemaGestionRiesgos.Controllers
 
         // POST: Riesgos/Create
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdRiesgo,Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia,IdUsuario")] Riesgo Riesgo)
+        public async Task<IActionResult> Create([Bind("IdRiesgo,Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia")] Riesgo Riesgo)
         {
+            // Obtener el usuario actual desde el contexto de HTTP
+            
+            
+            
             if (ModelState.IsValid)
             {
                 _service.CrearRiesgo(Riesgo);
                 return RedirectToAction("Index","Home");
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", Riesgo.IdUsuario);
             return RedirectToAction("Index","Home");
         }
 

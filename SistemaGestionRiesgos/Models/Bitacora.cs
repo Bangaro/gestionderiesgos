@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaGestionRiesgos.Models;
 
 public partial class Bitacora
 {
+    [Key]
     public int IdBitacora { get; set; }
 
     public DateTime? Fecha { get; set; }

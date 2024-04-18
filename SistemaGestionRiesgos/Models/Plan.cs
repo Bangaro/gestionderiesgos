@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaGestionRiesgos.Models;
 
 public partial class Plan
 {
+    [Key]
     public int IdPlan { get; set; }
 
     public string? TipoPlan { get; set; }
