@@ -22,6 +22,8 @@ builder.Services.AddScoped<IPlanesService, PlanesService>();
 builder.Services.AddScoped<IRiesgosService, RiesgosService>();
 builder.Services.AddScoped<IUsuariosService, UsuariosService>();
 
+
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSession(options =>

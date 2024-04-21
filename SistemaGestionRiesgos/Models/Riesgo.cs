@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace SistemaGestionRiesgos.Models;
 
@@ -10,7 +11,7 @@ public partial class Riesgo
     public int IdRiesgo { get; set; }
 
     public string? Titulo { get; set; }
-
+    
     public string? Descripcion { get; set; }
 
     public string? Impacto { get; set; }

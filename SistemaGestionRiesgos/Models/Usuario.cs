@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace SistemaGestionRiesgos.Models;
 
@@ -9,6 +8,7 @@ public partial class Usuario
 {
     [Key]
     public int IdUsuario { get; set; }
+    
     public string? UserName { get; set; }
     
     public string? ContraseñaTemporal { get; set; }

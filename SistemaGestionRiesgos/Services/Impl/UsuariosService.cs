@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using SistemaGestionRiesgos.Context;
@@ -26,6 +25,9 @@ public class UsuariosService: IUsuariosService
         var usuarioClaims = new List<Claim>() { new Claim(ClaimTypes.Name, login.Email) };
         var grandmaIdentity = new ClaimsIdentity(usuarioClaims, "User Identity");
         var usuarioPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
+        
+        
+        //TODO:Verificar contra base de datos que existe un usuario con ese email y contraseña
 
         await _httpContextAccessor.HttpContext.SignInAsync(usuarioPrincipal);
         return true;

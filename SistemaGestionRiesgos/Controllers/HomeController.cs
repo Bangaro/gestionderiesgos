@@ -43,8 +43,6 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> BuscarRiesgos(string Titulo)
     {
-        // // Obtener todos los riesgos o filtrar por título si se proporciona uno
-        // var riesgosQuery = _context.Riesgos.AsQueryable();
 
         if (string.IsNullOrEmpty(Titulo))
         {
