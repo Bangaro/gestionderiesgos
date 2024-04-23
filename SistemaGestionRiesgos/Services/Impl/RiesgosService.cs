@@ -129,7 +129,6 @@ public class RiesgosService: IRiesgosService
             Tabla = "Riesgos",
             TipoAccion = "Crear"
         };
-
         await _bitacoraService.CrearBitacora(bitacora);
     }
 
@@ -145,6 +144,16 @@ public class RiesgosService: IRiesgosService
         riesgoActual.Titulo = riesgo.Titulo;
         riesgoActual.Consecuencia = riesgo.Consecuencia;
         
+        
+        var bitacora = new Bitacora
+        {
+            Descripcion = "" + riesgo.Titulo,
+            IdUsuario = riesgo.IdUsuario,
+            Tabla = "Riesgos",
+            TipoAccion = "Editar"
+        };
+        await _bitacoraService.CrearBitacora(bitacora);
+        
         _context.Update(riesgoActual);
         await _context.SaveChangesAsync();
     }
@@ -154,6 +163,21 @@ public class RiesgosService: IRiesgosService
         var riesgo = _context.Riesgos.FirstOrDefault(r => r.IdRiesgo == id);
 
         if (riesgo == null) throw new InvalidOperationException("Sucedió un error al eliminar el riesgo.");
+        
+        var planes = _context.Planes.Where(p => p.IdRiesgo == id).ToList();
+        foreach (var plan in planes)
+        {
+            _context.Planes.Remove(plan);
+        }
+        
+        var bitacora = new Bitacora
+        {
+            Descripcion = "" + riesgo.Titulo,
+            IdUsuario = riesgo.IdUsuario,
+            Tabla = "Riesgos",
+            TipoAccion = "Eliminar"
+        };
+        await _bitacoraService.CrearBitacora(bitacora);
         
         _context.Riesgos.Remove(riesgo);
         await _context.SaveChangesAsync();
