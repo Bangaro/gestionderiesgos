@@ -77,7 +77,7 @@ namespace SistemaGestionRiesgos.Controllers
 
 
         // GET: Riesgos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
@@ -94,9 +94,10 @@ namespace SistemaGestionRiesgos.Controllers
             return View(riesgo);
         }
 
+        // POST: Riesgos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdRiesgo,Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia,IdUsuario")] Riesgo riesgo)
+        public async Task<IActionResult> Edit(int id, Riesgo riesgo)
         {
             if (id != riesgo.IdRiesgo)
             {
@@ -107,12 +108,12 @@ namespace SistemaGestionRiesgos.Controllers
             {
                 try
                 {
-                    _context.Update(riesgo);
-                    await _context.SaveChangesAsync();
+                    await _service.EditarRiesgo(riesgo);
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RiesgoExists(riesgo.IdRiesgo))
+                    if (!_service.RiesgoExists(riesgo.IdRiesgo))
                     {
                         return NotFound();
                     }
@@ -121,15 +122,33 @@ namespace SistemaGestionRiesgos.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", riesgo.IdUsuario);
+            
+            
             return View(riesgo);
         }
-
-        private bool RiesgoExists(int id)
+        
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
-            return _context.Riesgos.Any(e => e.IdRiesgo == id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            try{
+                await _service.EliminarRiesgo(id);
+            }catch(InvalidOperationException ex)
+            {
+                ViewBag.Message = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
+
+        
     }
 }

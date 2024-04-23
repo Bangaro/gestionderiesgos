@@ -12,4 +12,6 @@ public interface IUsuariosService
     Task<bool> CambiarContraseña(CambiarPasswordDTO cambiarPasswordDto);
     Task<Usuario?> ObtenerUsuarioConectado();
     
+    Task<List<Usuario?>> ObtenerUsuarios();
+    
 }

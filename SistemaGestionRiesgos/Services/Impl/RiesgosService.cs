@@ -133,6 +133,34 @@ public class RiesgosService: IRiesgosService
         await _bitacoraService.CrearBitacora(bitacora);
     }
 
+    public async Task EditarRiesgo(Riesgo riesgo)
+    {
+        var riesgoActual = _context.Riesgos.FirstOrDefault(r => r.IdRiesgo == riesgo.IdRiesgo);
 
+        riesgoActual.IdUsuario = _usuariosService.ObtenerUsuarioConectado().Id;
+        
+        riesgoActual.Probabilidad = riesgo.Probabilidad;
+        riesgoActual.Impacto = riesgo.Impacto;
+        riesgoActual.Causa = riesgo.Causa;
+        riesgoActual.Titulo = riesgo.Titulo;
+        riesgoActual.Consecuencia = riesgo.Consecuencia;
+        
+        _context.Update(riesgoActual);
+        await _context.SaveChangesAsync();
+    }
 
+    public async Task EliminarRiesgo(int id)
+    {
+        var riesgo = _context.Riesgos.FirstOrDefault(r => r.IdRiesgo == id);
+
+        if (riesgo == null) throw new InvalidOperationException("Sucedió un error al eliminar el riesgo.");
+        
+        _context.Riesgos.Remove(riesgo);
+        await _context.SaveChangesAsync();
+    }
+    
+    public bool RiesgoExists(int id)
+    {
+        return _context.Riesgos.Any(e => e.IdRiesgo == id);
+    }
 }

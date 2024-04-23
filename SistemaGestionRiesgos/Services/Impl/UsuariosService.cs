@@ -76,6 +76,12 @@ public class UsuariosService: IUsuariosService
             FirstOrDefaultAsync(u => u.Email == _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
         return user;
     }
-    
-    
+
+    public async Task<List<Usuario>> ObtenerUsuarios()
+    {
+        // Utiliza Entity Framework Core para obtener todos los usuarios de la base de datos
+        List<Usuario> usuarios = await _context.Usuarios.ToListAsync();
+
+        return usuarios;
+    }
 }
