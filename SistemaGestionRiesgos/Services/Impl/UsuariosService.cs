@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -22,15 +23,25 @@ public class UsuariosService: IUsuariosService
     
     public async Task<bool> Login(LoginDTO login)
     {
-        var usuarioClaims = new List<Claim>() { new Claim(ClaimTypes.Name, login.Email) };
-        var grandmaIdentity = new ClaimsIdentity(usuarioClaims, "User Identity");
-        var usuarioPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
-        
-        
         //TODO:Verificar contra base de datos que existe un usuario con ese email y contraseña
+        
+        var usuario = await _context.Usuarios
+            .FirstOrDefaultAsync(u => u.Email == login.Email && u.Contraseña == login.Contraseña);
 
-        await _httpContextAccessor.HttpContext.SignInAsync(usuarioPrincipal);
-        return true;
+        if (usuario != null)
+        {
+            
+            var usuarioClaims = new List<Claim>() { new Claim(ClaimTypes.Name, usuario.UserName) };
+            var grandmaIdentity = new ClaimsIdentity(usuarioClaims, "User Identity");
+            var usuarioPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
+            
+            
+            
+            await _httpContextAccessor.HttpContext.SignInAsync(usuarioPrincipal);
+            return true;
+        }
+
+        throw new AuthenticationException();
     }
     
 
@@ -56,7 +67,7 @@ public class UsuariosService: IUsuariosService
         user.PrimerInicio = false;
         
         
-        var usuarioClaims = new List<Claim>() { new Claim(ClaimTypes.Name, cambiarPasswordDto.Email) };
+        var usuarioClaims = new List<Claim>() { new Claim(ClaimTypes.Name, user.UserName) };
         var grandmaIdentity = new ClaimsIdentity(usuarioClaims, "User Identity");
         var usuarioPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
 
@@ -73,7 +84,7 @@ public class UsuariosService: IUsuariosService
     
     public async Task<Usuario?> ObtenerUsuarioConectado() {
         Usuario user = await _context.Usuarios.
-            FirstOrDefaultAsync(u => u.Email == _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
+            FirstOrDefaultAsync(u => u.UserName == _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value);
         return user;
     }
 

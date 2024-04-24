@@ -10,18 +10,18 @@
                     
                     @if(ViewBag.Message != null)
                     {
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger dark-gray-text-thin" role="alert">
                             @ViewBag.Message
                         </div>
                     }
 
                     <form asp-action="Login" asp-controller="Usuarios" method="post">
-                        <div class="mb-3">
+                        <div class="mb-3 dark-gray-text-thin">
                             <label asp-for="@Model.Email" class="form-label">Correo:</label>
                             <input asp-for="@Model.Email" class="form-control" />
                             <span asp-validation-for="@Model.Email" class="text-danger"></span>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 dark-gray-text-thin">
                             <label asp-for="@Model.Contraseña" class="form-label">Contraseña:</label>
                             <input asp-for="@Model.Contraseña" type="password" class="form-control" />
                             <span asp-validation-for="@Model.Contraseña" class="text-danger"></span>

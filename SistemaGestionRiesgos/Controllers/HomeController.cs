@@ -51,7 +51,8 @@ public class HomeController : Controller
 
         if (string.IsNullOrEmpty(Titulo))
         {
-            ViewBag.Message = "Ingresa un valor para realizar la búsqueda";
+            ViewBag.ActionMessage = "Ingresa un valor para realizar la búsqueda";
+            ViewBag.ActionClass = "salmon";
             return View("Index");
         }
 

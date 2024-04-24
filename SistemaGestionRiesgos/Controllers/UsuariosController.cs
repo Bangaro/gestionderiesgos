@@ -40,19 +40,26 @@ namespace SistemaGestionRiesgos.Controllers
                 ViewBag.Message = "Debe ingresar un nombre de usuario y contraseña";
                 return View();
             }
-            
-            
-            if(await _service.IsPrimerLogin(login))
+          
+            try
             {
-                return RedirectToAction("CambiarPassword", "Usuarios");
-            }
-            
-            if (await _service.Login(login))
+                if (await _service.IsPrimerLogin(login))
+                {
+                    return RedirectToAction("CambiarPassword", "Usuarios");
+                }
+                
+                if (await _service.Login(login))
+                {
+                    TempData["ActionMessage"] = "Inicio de sesión con éxito";
+                    TempData["ActionClass"] = "light-green";
+                    return RedirectToAction("Index", "Home");
+                }
+            }  catch (Exception e)
             {
-                TempData["ActionMessage"] = "Inicio de sesión con éxito";
-                TempData["ActionClass"] = "light-green";
-                return RedirectToAction("Index", "Home");    
+                ViewBag.Message = "Correo electrónico o contraseña incorrectos";
+                return View();
             }
+
             ViewBag.Message = "Ha ocurrido un error al iniciar sesión";
             return View();
         }

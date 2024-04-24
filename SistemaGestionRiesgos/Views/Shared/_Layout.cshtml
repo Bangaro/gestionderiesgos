@@ -13,7 +13,8 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
         <div class="container-fluid">
             <!-- Logo y elementos de la izquierda -->
             <div class="d-flex justify-content-start align-items-center">
@@ -21,9 +22,6 @@
                 <!-- Logo de retroceso o de la compañía-->
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img id="previousIcon" src="~/imgs/previous.png" alt="Previous" style="width: 20px; height: 20px;"/>
-                </a>
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                  <img id="otherIcon" src="~/imgs/logo-text.png" alt="Other Icon" style="width: 60px; height: 60px; display: none;"/>
                 </a>
 
                 <ul class="navbar-nav mr-auto">
@@ -38,38 +36,39 @@
                 <ul class="navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link dark-gray-text" asp-area="" asp-controller="Riesgos" asp-action="Create">Añadir un riesgo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link dark-gray-text" asp-area="" asp-controller="Planes" asp-action="Create">Añadir un plan</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link dark-gray-text" asp-area="" asp-controller="Riesgos" asp-action="Create">Añadir un riesgo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link dark-gray-text" asp-area="" asp-controller="Planes" asp-action="Create">Añadir un plan</a>
+                    </li>
                     }
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link dark-gray-text">@User.Identity.Name</a>
-                        </li>
-                        <form asp-controller="Usuarios" asp-action="Logout" method="post" id="logoutForm">
-                            <button type="submit" class="nav-link dark-gray-text" style="border: none; background-color: transparent; cursor: pointer;">
-                                Cerrar Sesión
-                            </button>
-                        </form>
+                    <li class="nav-item">
+                        <btn class="nav-link dark-gray rounded-3 text-light porcelain" disabled>@User.Identity.Name</btn>
+                    </li>
+                    <form asp-controller="Usuarios" asp-action="Logout" method="post" id="logoutForm">
+                        <button type="submit" class="nav-link dark-gray-text" style="border: none; background-color: transparent; cursor: pointer;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
 
                     }
                     else
                     {
-                        <li class="nav-item">
-                            <a class="nav-link dark-gray-text" asp-area="" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link dark-gray-text" asp-area="" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
+                    </li>
                     }
-                    
+
 
                 </ul>
             </div>
         </div>
     </nav>
+
 </header>
 <div class="container">
     <main role="main" class="pb-3">
@@ -79,9 +78,14 @@
 
 <footer class="border-top footer text-muted dark-gray">
     <div class="container">
-        &copy; 2024 - SistemaGestionRiesgos - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="porcelain">Privacy</a>
+        <div class="row">
+            <div class="col-12 text-center">
+                <p>&copy; 2024 - Sistema de Gestion de Riesgos - </p>
+            </div>
+        </div>
     </div>
 </footer>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

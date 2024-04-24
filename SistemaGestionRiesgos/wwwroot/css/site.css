@@ -19,7 +19,9 @@ html {
 
 body {
   margin-bottom: 60px;
+  padding-top: 60px;
 }
+
 
 
 
@@ -52,7 +54,7 @@ body {
 }
 
 .light-blue{
-  background-color: #0097ff;
+  background-color: #137eb6;
 }
 
 .dark-blue{
@@ -69,6 +71,7 @@ body {
   font-style: normal;
   color: #e2e9e8;
 }
+
 
 .dark-gray{
   background-color: #171717;
