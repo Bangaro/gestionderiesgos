@@ -69,10 +69,15 @@ namespace SistemaGestionRiesgos.Controllers
             if (ModelState.IsValid)
             {
                 await _service.CrearRiesgo(riesgo); // Espera la finalización del método asincrónico
+                
+                TempData["ActionMessage"] = "Riesgo creado con éxito";
+                TempData["ActionClass"] = "light-green";
+                
                 return RedirectToAction("Index", "Home");
             }
 
-            return RedirectToAction("Index", "Home");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", riesgo.IdUsuario);
+            return View(riesgo);
         }
 
 
@@ -109,6 +114,9 @@ namespace SistemaGestionRiesgos.Controllers
                 try
                 {
                     await _service.EditarRiesgo(riesgo);
+                    
+                    TempData["ActionMessage"] = "Riesgo editado con éxito";
+                    TempData["ActionClass"] = "light-green";
                     return RedirectToAction("Index", "Home");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -140,6 +148,8 @@ namespace SistemaGestionRiesgos.Controllers
 
             try{
                 await _service.EliminarRiesgo(id);
+                TempData["ActionMessage"] = "Riesgo eliminado con éxito";
+                TempData["ActionClass"] = "light-green";
             }catch(InvalidOperationException ex)
             {
                 ViewBag.Message = ex.Message;

@@ -49,6 +49,8 @@ namespace SistemaGestionRiesgos.Controllers
             
             if (await _service.Login(login))
             {
+                TempData["ActionMessage"] = "Inicio de sesión con éxito";
+                TempData["ActionClass"] = "light-green";
                 return RedirectToAction("Index", "Home");    
             }
             ViewBag.Message = "Ha ocurrido un error al iniciar sesión";
@@ -75,8 +77,9 @@ namespace SistemaGestionRiesgos.Controllers
                 {
                     
                     await _service.CambiarContraseña(cambiarPasswordDto);
-
-                    ViewBag.Message = "Contraseña cambiada correctamente.";
+                    
+                    TempData["ActionMessage"] = "Contraseña cambiada con éxito";
+                    TempData["ActionClass"] = "light-green";
                     return RedirectToAction("Index", "Home"); // Redirige a la página de inicio
                 }
 

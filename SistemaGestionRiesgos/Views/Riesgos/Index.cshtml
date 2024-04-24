@@ -41,12 +41,12 @@
 
 
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn salmon porcelain" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn salmon porcelain" data-bs-toggle="modal" data-bs-target="#modalRiesgo">
                         Eliminar
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="modalRiesgo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -105,7 +105,54 @@
                                 <h5 class="card-title dark-gray-text">Tipo de plan: @plan.TipoPlan</h5>
                                 <p class="card-text dark-gray-text-thin">Descripción: @plan.Descripcion</p>
                             </div>
+                            
+                            <div class="card-footer">
+                                <div class="row">
+                                    <form asp-controller="Planes" asp-action="Edit"  asp-route-id="@plan.IdPlan" method="get" class="col-6 text-end">
+                                        <button type="submit" class="btn light-green porcelain">
+                                            Editar
+                                        </button>
+                                    </form>
+
+                                    <div class="col-6 text-start">
+
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn salmon porcelain" data-bs-toggle="modal" data-bs-target="#planModal">
+                                            Eliminar
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="planModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">¿Estás seguro de eliminar este plan asociado a este riesgo?</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Esta acción no se puede deshacer.
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn light-green porcelain" data-bs-dismiss="modal">Regresar</button>
+
+                                                        <form asp-controller="Planes" asp-action="Delete" asp-route-id="@plan.IdPlan" class="col-6 text-start">
+                                                            <button type="submit" class="btn salmon porcelain">
+                                                                Eliminar
+                                                            </button>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
+                        
+                            
                     }
                 </div>
             }

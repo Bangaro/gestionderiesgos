@@ -8,17 +8,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaGestionRiesgos.Context;
 using SistemaGestionRiesgos.Models;
+using SistemaGestionRiesgos.Services;
 
 namespace SistemaGestionRiesgos.Controllers
 {
     public class PlanesController : Controller
     {
         private readonly GestionDbContext _context;
+        private readonly IPlanesService _service;
+        private readonly IUsuariosService _userService;
 
-        public PlanesController(GestionDbContext context)
+        public PlanesController(GestionDbContext context, IPlanesService service, IUsuariosService userService)
         {
             _context = context;
+            _service = service;
+            _userService = userService;
         }
+
 
         // GET: Planes
         public async Task<IActionResult> Index()
@@ -58,13 +64,14 @@ namespace SistemaGestionRiesgos.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(plan);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index","Home");
+                await _service.CrearPlan(plan); // Espera la finalización del método asincrónico
+                
+                TempData["ActionMessage"] = "Plan creado con éxito";
+                TempData["ActionClass"] = "light-green";
+                return RedirectToAction("Index", "Home");
             }
-            ViewData["IdRiesgo"] = new SelectList(_context.Riesgos, "IdRiesgo", "IdRiesgo", plan.IdRiesgo);
+
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", plan.IdUsuario);
-            
             return View(plan);
         }
 
@@ -86,10 +93,11 @@ namespace SistemaGestionRiesgos.Controllers
             return View(plan);
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPlan,TipoPlan,Descripcion,IdRiesgo,IdUsuario")] Plan plan)
+        public async Task<IActionResult> Edit(int id,
+            [Bind("IdPlan,TipoPlan,Descripcion,IdRiesgo,IdUsuario")] Plan plan)
         {
             if (id != plan.IdPlan)
             {
@@ -100,65 +108,45 @@ namespace SistemaGestionRiesgos.Controllers
             {
                 try
                 {
-                    _context.Update(plan);
-                    await _context.SaveChangesAsync();
+                    await _service.EditarPlan(plan);
+                    
+                    TempData["ActionMessage"] = "Plan editado con éxito";
+                    TempData["ActionClass"] = "light-green";
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PlanExists(plan.IdPlan))
+                    if (!_service.PlanExists(plan.IdPlan))
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRiesgo"] = new SelectList(_context.Riesgos, "IdRiesgo", "IdRiesgo", plan.IdRiesgo);
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario", plan.IdUsuario);
             return View(plan);
         }
 
-        // GET: Planes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // POST: Planes/Delete/5
+         
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var plan = await _context.Planes
-                .Include(p => p.IdRiesgoNavigation)
-                .Include(p => p.IdUsuarioNavigation)
-                .FirstOrDefaultAsync(m => m.IdPlan == id);
-            if (plan == null)
+            try{
+                await _service.EliminarPlan(id);
+                TempData["ActionMessage"] = "Plan eliminado con éxito";
+                TempData["ActionClass"] = "light-green";
+            }catch(InvalidOperationException ex)
             {
-                return NotFound();
+                ViewBag.Message = ex.Message;
+                return RedirectToAction("Index", "Home");
             }
 
-            return View(plan);
-        }
-
-        // POST: Planes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var plan = await _context.Planes.FindAsync(id);
-            if (plan != null)
-            {
-                _context.Planes.Remove(plan);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool PlanExists(int id)
-        {
-            return _context.Planes.Any(e => e.IdPlan == id);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

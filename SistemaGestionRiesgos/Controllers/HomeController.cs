@@ -23,6 +23,11 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index(List<RiesgosPlanesViewModel> listaRiesgosPlanes = null)
     {
+        
+        // Obtener la información de TempData
+        ViewBag.ActionMessage = TempData["ActionMessage"];
+        ViewBag.ActionClass = TempData["ActionClass"];
+        
         // Obtener todos los riesgos
         var riesgos = await _context.Riesgos.ToListAsync();
 

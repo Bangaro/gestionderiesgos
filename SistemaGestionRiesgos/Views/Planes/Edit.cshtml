@@ -4,43 +4,58 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Plan</h4>
+<h1 class="text-center dark-gray-text">Editar Plan</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdPlan" />
-            <div class="form-group">
-                <label asp-for="TipoPlan" class="control-label"></label>
-                <input asp-for="TipoPlan" class="form-control" />
-                <span asp-validation-for="TipoPlan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdRiesgo" class="control-label"></label>
-                <select asp-for="IdRiesgo" class="form-control" asp-items="ViewBag.IdRiesgo"></select>
-                <span asp-validation-for="IdRiesgo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdUsuario" class="control-label"></label>
-                <select asp-for="IdUsuario" class="form-control" asp-items="ViewBag.IdUsuario"></select>
-                <span asp-validation-for="IdUsuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="IdPlan" />
+
+                        <div class="form-group dark-gray-text">
+                            <label asp-for="TipoPlan" class="control-label">Tipo de plan:</label>
+                            <select asp-for="TipoPlan" class="form-control">
+                                <option value="">Seleccionar...</option>
+                                <option value="Continuidad" >Continuidad</option>
+                                <option value="Contingencia" >Contingencia</option>
+                            </select>
+                            <span asp-validation-for="TipoPlan" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group dark-gray-text">
+                            <label asp-for="Descripcion" class="control-label dark-gray-text">Descripción:</label>
+                            <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group d-none">
+                            <label asp-for="IdRiesgo" class="control-label dark-gray-text">Riesgo:</label>
+                            <select asp-for="IdRiesgo" class="form-control" asp-items="ViewBag.IdRiesgo">
+                                <option value="">Seleccionar...</option>
+                            </select>
+                            <span asp-validation-for="IdRiesgo" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group d-none">
+                            <label asp-for="IdUsuario" class="control-label dark-gray-text">Usuario:</label>
+                            <select asp-for="IdUsuario" class="form-control" asp-items="ViewBag.IdUsuario">
+                                <option value="">Seleccionar...</option>
+                            </select>
+                            <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group text-center mt-4">
+                            <button type="submit" class="btn light-blue porcelain">Guardar</button>
+                            <a asp-controller="Home" asp-action="Index" class="btn salmon porcelain ml-2">Volver al Listado</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 

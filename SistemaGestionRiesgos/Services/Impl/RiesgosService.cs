@@ -17,11 +17,11 @@ public class RiesgosService: IRiesgosService
     private readonly IUsuariosService _usuariosService;
 
 
-    public RiesgosService(GestionDbContext context, IBitacoraService bitacoraService, IUsuariosService _usuariosService)
+    public RiesgosService(GestionDbContext context, IBitacoraService bitacoraService, IUsuariosService usuariosService)
     {
         _context = context;
         _bitacoraService = bitacoraService;
-        this._usuariosService = _usuariosService;
+        _usuariosService = usuariosService;
     }
       
     public async Task<List<RiesgosPlanesViewModel>> FiltrarRiesgos(string Impacto, string Probabilidad)
