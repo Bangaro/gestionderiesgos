@@ -11,7 +11,6 @@ public interface IUsuariosService
     Task<bool> IsPrimerLogin(LoginDTO login);
     Task<bool> CambiarContraseña(CambiarPasswordDTO cambiarPasswordDto);
     Task<Usuario?> ObtenerUsuarioConectado();
-    
     Task<List<Usuario?>> ObtenerUsuarios();
     
 }

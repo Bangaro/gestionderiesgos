@@ -20,13 +20,11 @@ namespace SistemaGestionRiesgos.Controllers
     {
         private readonly GestionDbContext _context;
         private readonly IRiesgosService _service;
-        private readonly IUsuariosService _userService;
 
-        public RiesgosController(GestionDbContext context, IRiesgosService service, IUsuariosService userService)
+        public RiesgosController(GestionDbContext context, IRiesgosService service)
         {
             _context = context;
             _service = service;
-            _userService = userService;
         }
 
         // GET: Riesgos
@@ -66,9 +64,12 @@ namespace SistemaGestionRiesgos.Controllers
         public async Task<IActionResult> Create([Bind("Titulo,Descripcion,Impacto,Probabilidad,Causa,Consecuencia")] Riesgo riesgo)
         {
 
+            //TODO: Realizar las validaciones del formulario, que no haya nada en blanco
+            //TODO: Se puede mostrar un mensaje si faltan espacios por rellenar
+            
             if (ModelState.IsValid)
             {
-                await _service.CrearRiesgo(riesgo); // Espera la finalización del método asincrónico
+                await _service.CrearRiesgo(riesgo); 
                 
                 TempData["ActionMessage"] = "Riesgo creado con éxito";
                 TempData["ActionClass"] = "light-green";
@@ -104,6 +105,8 @@ namespace SistemaGestionRiesgos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Riesgo riesgo)
         {
+            //TODO: Realizar las validaciones del formulario, que no haya nada en blanco
+            //TODO: Se puede mostrar un mensaje si faltan espacios por rellenar
             if (id != riesgo.IdRiesgo)
             {
                 return NotFound();

@@ -15,6 +15,9 @@ namespace SistemaGestionRiesgos.Controllers
         {
             _context = context;
         }
+        
+        //TODO: Implementar la vista de la bitacora, la cual debe mostrar una lista de las bitacoras registradas en el sistema
+        //TODO: Puede hacerse con las cards de bootstrap
 
         // GET: BitacoraController
         public async Task<IActionResult> Index()

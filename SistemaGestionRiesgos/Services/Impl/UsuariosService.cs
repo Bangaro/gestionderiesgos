@@ -23,8 +23,6 @@ public class UsuariosService: IUsuariosService
     
     public async Task<bool> Login(LoginDTO login)
     {
-        //TODO:Verificar contra base de datos que existe un usuario con ese email y contraseña
-        
         var usuario = await _context.Usuarios
             .FirstOrDefaultAsync(u => u.Email == login.Email && u.Contraseña == login.Contraseña);
 
@@ -48,7 +46,7 @@ public class UsuariosService: IUsuariosService
     public async Task<bool> IsPrimerLogin(LoginDTO login)
     {
         var user = await _context.Usuarios
-            .FirstOrDefaultAsync(u => u.Email == login.Email);
+            .FirstOrDefaultAsync(u => u.Email == login.Email && u.ContraseñaTemporal == login.Contraseña);
 
         if (user != null && user.PrimerInicio == true)
         {

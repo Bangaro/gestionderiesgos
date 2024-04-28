@@ -16,13 +16,12 @@ namespace SistemaGestionRiesgos.Controllers
     {
         private readonly GestionDbContext _context;
         private readonly IPlanesService _service;
-        private readonly IUsuariosService _userService;
+        
 
-        public PlanesController(GestionDbContext context, IPlanesService service, IUsuariosService userService)
+        public PlanesController(GestionDbContext context, IPlanesService service)
         {
             _context = context;
             _service = service;
-            _userService = userService;
         }
 
 
@@ -38,7 +37,6 @@ namespace SistemaGestionRiesgos.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario");
             
             // Obtener todos los riesgos disponibles desde la base de datos
@@ -62,9 +60,12 @@ namespace SistemaGestionRiesgos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdPlan,TipoPlan,Descripcion,IdRiesgo,IdUsuario")] Plan plan)
         {
+            //TODO: Realizar las validaciones del formulario, que no haya nada en blanco
+            //TODO: Se puede mostrar un mensaje si faltan espacios por rellenar
+            
             if (ModelState.IsValid)
             {
-                await _service.CrearPlan(plan); // Espera la finalización del método asincrónico
+                await _service.CrearPlan(plan); 
                 
                 TempData["ActionMessage"] = "Plan creado con éxito";
                 TempData["ActionClass"] = "light-green";
@@ -99,6 +100,9 @@ namespace SistemaGestionRiesgos.Controllers
         public async Task<IActionResult> Edit(int id,
             [Bind("IdPlan,TipoPlan,Descripcion,IdRiesgo,IdUsuario")] Plan plan)
         {
+            //TODO: Realizar las validaciones del formulario, que no haya nada en blanco
+            //TODO: Se puede mostrar un mensaje si faltan espacios por rellenar
+            
             if (id != plan.IdPlan)
             {
                 return NotFound();

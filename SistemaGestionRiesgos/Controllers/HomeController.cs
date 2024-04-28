@@ -24,7 +24,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index(List<RiesgosPlanesViewModel> listaRiesgosPlanes = null)
     {
         
-        // Obtener la información de TempData
+        // Obtener la información de TempData, enviada desde los otros controladores
         ViewBag.ActionMessage = TempData["ActionMessage"];
         ViewBag.ActionClass = TempData["ActionClass"];
         

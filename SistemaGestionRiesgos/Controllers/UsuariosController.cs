@@ -37,7 +37,8 @@ namespace SistemaGestionRiesgos.Controllers
         {
             if(login.Contraseña == null || login.Email == null)
             {
-                ViewBag.Message = "Debe ingresar un nombre de usuario y contraseña";
+                ViewBag.ActionMessage = "Debe ingresar un nombre de usuario y contraseña";
+                ViewBag.ActionClass = "salmon";
                 return View();
             }
           
@@ -56,7 +57,8 @@ namespace SistemaGestionRiesgos.Controllers
                 }
             }  catch (Exception e)
             {
-                ViewBag.Message = "Correo electrónico o contraseña incorrectos";
+                ViewBag.ActionMessage = "Correo electrónico o contraseña incorrectos";
+                ViewBag.ActionClass = "salmon";
                 return View();
             }
 
@@ -74,6 +76,12 @@ namespace SistemaGestionRiesgos.Controllers
         [HttpPost]
         public async Task<IActionResult> CambiarPassword(CambiarPasswordDTO cambiarPasswordDto)
         {
+            if(cambiarPasswordDto.OldPassword == null || cambiarPasswordDto.NewPassword == null || cambiarPasswordDto.ConfirmPassword == null || cambiarPasswordDto.Email == null)
+            {
+                ViewBag.ActionMessage = "Debes rellenar todos los espacios";
+                ViewBag.ActionClass = "salmon";
+                return View();
+            }
             if (ModelState.IsValid)
             {
                 // Busca al usuario por correo electrónico y contraseña temporal
@@ -90,7 +98,8 @@ namespace SistemaGestionRiesgos.Controllers
                     return RedirectToAction("Index", "Home"); // Redirige a la página de inicio
                 }
 
-                ModelState.AddModelError(string.Empty, "Correo electrónico o contraseña temporal incorrectos.");
+                ViewBag.ActionMessage = "Ha sucedido un error al cambiar la contraseña";
+                ViewBag.ActionClass = "salmon";
             }
 
             return View(cambiarPasswordDto); // Vuelve a mostrar la vista con el DTO
