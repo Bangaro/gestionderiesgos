@@ -67,8 +67,12 @@ namespace SistemaGestionRiesgos.Controllers
             {
                 await _service.CrearPlan(plan); 
                 
+                //MENSAJE PARA NOTIFICACIONES
                 TempData["ActionMessage"] = "Plan creado con éxito";
                 TempData["ActionClass"] = "light-green";
+                
+                
+                
                 return RedirectToAction("Index", "Home");
             }
 
