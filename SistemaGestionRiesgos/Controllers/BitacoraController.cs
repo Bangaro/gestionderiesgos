@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaGestionRiesgos.Context;
 using SistemaGestionRiesgos.DTO;
@@ -25,6 +27,12 @@ namespace SistemaGestionRiesgos.Controllers
             var listaBitacoras = await _context.Bitacoras.ToListAsync();
             return View(listaBitacoras);
         }
-       
+
+        [Authorize]
+        public IActionResult MostrarBitacora()
+        {
+            return View();
+        }
+
     }
 }
