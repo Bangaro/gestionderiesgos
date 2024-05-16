@@ -1,0 +1,28 @@
+@model IEnumerable<SistemaGestionRiesgos.Models.Bitacora>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="col-sm-6 text-center">
+    <h1>Bitácoras</h1>
+</div>
+
+<div class="row justify-content-center">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-4 mt-5">
+            <!-- Tarjeta para mostrar información del Riesgo -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title dark-gray-text">@item.Descripcion</h5>
+                    <p class="card-text dark-gray-text-thin">Tabla modificada: @item.Tabla</p>
+                    <p class="card-text dark-gray-text-thin">Tipo de acción: @item.TipoAccion</p>
+                    <p class="card-text dark-gray-text-thin">Fecha: @item.Fecha</p>
+                    <p class="card-text dark-gray-text-thin">Id de usuario: @item.IdUsuario</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

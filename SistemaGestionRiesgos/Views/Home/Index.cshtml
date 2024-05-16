@@ -240,6 +240,16 @@
                             <p class="card-text dark-gray-text-thin">Consecuencia: @item.Riesgo.Consecuencia</p>
                             <p class="card-text dark-gray-text-thin">Impacto: @item.Riesgo.Impacto</p>
                             <p class="card-text dark-gray-text-thin">Probabilidad: @item.Riesgo.Probabilidad</p>
+                            
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <form asp-controller="Planes" asp-action="Create"  method="get" class="col-6 flex-column">
+                                    <button type="submit" class="btn silver dark-gray-text-thin">
+                                        Añadir un plan
+                                    </button>
+                                </form>
+                            }
 
 
                             <hr/> <!-- Línea divisoria para separar el riesgo del plan -->

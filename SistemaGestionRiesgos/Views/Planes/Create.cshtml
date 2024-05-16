@@ -7,6 +7,28 @@
 <h1 class="text-center dark-gray-text">Añadir Plan</h1>
 <hr />
 
+
+<!--Mensaje desde los controladores-->
+
+@if (ViewBag.ActionMessage != null)
+{
+<div aria-live="assertive" aria-atomic="true" class="bg-dark fixed-top bd-example-toasts">
+    <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
+        <div class="toast @ViewBag.ActionClass">
+
+            <div class="toast-header d-flex justify-content-between">
+                <small>Hace un instante</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+
+            <div class="toast-body dark-gray-text">
+                @ViewBag.ActionMessage
+            </div>
+        </div>
+    </div>
+</div>
+}
+
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
@@ -14,6 +36,16 @@
                 <form asp-action="Create" method="post" class="needs-validation" novalidate>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+
+                    <div class="form-group dark-gray-text">
+                        <label asp-for="IdRiesgo" class="control-label">Riesgo:</label>
+                        <select asp-for="IdRiesgo" class="form-control" asp-items="ViewBag.Riesgos">
+                            <option value="">Seleccionar...</option>
+                        </select>
+                        <span asp-validation-for="IdRiesgo" class="text-danger"></span>
+                    </div>
+                    
+                    
                     <div class="form-group dark-gray-text">
                         <label asp-for="TipoPlan" class="control-label">Tipo de plan:</label>
                         <select asp-for="TipoPlan" class="form-control">
@@ -30,13 +62,6 @@
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group dark-gray-text">
-                        <label asp-for="IdRiesgo" class="control-label">Riesgo:</label>
-                        <select asp-for="IdRiesgo" class="form-control" asp-items="ViewBag.Riesgos">
-                            <option value="">Seleccionar...</option>
-                        </select>
-                        <span asp-validation-for="IdRiesgo" class="text-danger"></span>
-                    </div>
 
                     <div class="form-group text-center mt-2">
                         <button type="submit" class="btn light-blue porcelain">Crear Plan</button>

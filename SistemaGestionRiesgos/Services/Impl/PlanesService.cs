@@ -31,7 +31,8 @@ public class PlanesService: IPlanesService
             Descripcion = "" + plan.Descripcion,
             IdUsuario = plan.IdUsuario,
             Tabla = "Planes",
-            TipoAccion = "Crear"
+            TipoAccion = "Crear",
+            Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
     }
@@ -50,7 +51,8 @@ public class PlanesService: IPlanesService
             Descripcion = "" + plan.Descripcion,
             IdUsuario = plan.IdUsuario,
             Tabla = "Planes",
-            TipoAccion = "Editar"
+            TipoAccion = "Editar",
+            Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
         
@@ -69,7 +71,8 @@ public class PlanesService: IPlanesService
             Descripcion = "" + plan.Descripcion,
             IdUsuario = plan.IdUsuario,
             Tabla = "Planes",
-            TipoAccion = "Eliminar"
+            TipoAccion = "Eliminar",
+            Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
         

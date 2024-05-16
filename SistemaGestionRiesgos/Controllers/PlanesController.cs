@@ -39,6 +39,9 @@ namespace SistemaGestionRiesgos.Controllers
         {
             ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "IdUsuario", "IdUsuario");
             
+            ViewBag.ActionMessage = TempData["ActionMessage"];
+            ViewBag.ActionClass = TempData["ActionClass"];
+            
             // Obtener todos los riesgos disponibles desde la base de datos
             var riesgos = _context.Riesgos.ToList();
 
@@ -62,6 +65,25 @@ namespace SistemaGestionRiesgos.Controllers
         {
             //TODO: Realizar las validaciones del formulario, que no haya nada en blanco
             //TODO: Se puede mostrar un mensaje si faltan espacios por rellenar
+            
+            if(plan.IdRiesgo == null)
+            {
+                //MENSAJE PARA NOTIFICACIONES
+                TempData["ActionMessage"] = "Debe seleccionar un riesgo para agregar un plan";
+                TempData["ActionClass"] = "salmon";
+                
+                return RedirectToAction("Create", "Planes");
+            }
+            
+            if(plan.Descripcion == null || plan.TipoPlan == null)
+            {
+                //MENSAJE PARA NOTIFICACIONES
+                TempData["ActionMessage"] = "Debe rellenar todos los campos";
+                TempData["ActionClass"] = "salmon";
+                
+                return RedirectToAction("Create", "Planes");
+            }
+           
             
             if (ModelState.IsValid)
             {

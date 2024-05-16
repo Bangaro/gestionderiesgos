@@ -23,6 +23,8 @@ namespace SistemaGestionRiesgos.Controllers
         public async Task<IActionResult> Index()
         {
             var listaBitacoras = await _context.Bitacoras.ToListAsync();
+            listaBitacoras.Reverse();
+
             return View(listaBitacoras);
         }
        

@@ -12,7 +12,7 @@ public partial class Plan
     public string? TipoPlan { get; set; }
 
     public string? Descripcion { get; set; }
-
+    
     public int? IdRiesgo { get; set; }
 
     public int? IdUsuario { get; set; }

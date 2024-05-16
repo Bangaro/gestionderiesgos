@@ -127,7 +127,8 @@ public class RiesgosService: IRiesgosService
             Descripcion = "" + riesgo.Titulo,
             IdUsuario = riesgo.IdUsuario,
             Tabla = "Riesgos",
-            TipoAccion = "Crear"
+            TipoAccion = "Crear",
+            Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
     }
@@ -148,9 +149,10 @@ public class RiesgosService: IRiesgosService
         var bitacora = new Bitacora
         {
             Descripcion = "" + riesgo.Titulo,
-            IdUsuario = riesgo.IdUsuario,
+            IdUsuario = riesgoActual.IdUsuario,
             Tabla = "Riesgos",
-            TipoAccion = "Editar"
+            TipoAccion = "Editar",
+            Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
         
@@ -175,7 +177,8 @@ public class RiesgosService: IRiesgosService
             Descripcion = "" + riesgo.Titulo,
             IdUsuario = riesgo.IdUsuario,
             Tabla = "Riesgos",
-            TipoAccion = "Eliminar"
+            TipoAccion = "Eliminar",
+            Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
         
