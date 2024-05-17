@@ -134,6 +134,13 @@ namespace SistemaGestionRiesgos.Controllers
                 return NotFound();
             }
 
+            if (plan.Descripcion == null)
+            {
+                ViewBag.ActionMessage = "Por favor, rellene todos los campos";
+                ViewBag.ActionClass = "salmon";
+                return View();
+            }
+
             if (ModelState.IsValid)
             {
                 try

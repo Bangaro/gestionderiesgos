@@ -66,6 +66,12 @@ namespace SistemaGestionRiesgos.Controllers
 
             //TODO: Realizar las validaciones del formulario, que no haya nada en blanco
             //TODO: Se puede mostrar un mensaje si faltan espacios por rellenar
+            if(riesgo.Descripcion == null || riesgo.Titulo == null || riesgo.Causa == null || riesgo.Consecuencia == null)
+            {
+                ViewBag.ActionMessage = "Por favor, rellene todos los campos";
+                ViewBag.ActionClass = "salmon";
+                return View();
+            }
             
             if (ModelState.IsValid)
             {
@@ -100,16 +106,22 @@ namespace SistemaGestionRiesgos.Controllers
             return View(riesgo);
         }
 
-        // POST: Riesgos/Edit/5
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Riesgo riesgo)
         {
-            //TODO: Realizar las validaciones del formulario, que no haya nada en blanco
-            //TODO: Se puede mostrar un mensaje si faltan espacios por rellenar
             if (id != riesgo.IdRiesgo)
             {
                 return NotFound();
+            }
+            
+            if(riesgo.Descripcion == null || riesgo.Titulo == null || riesgo.Causa == null || riesgo.Consecuencia == null)
+            {
+                ViewBag.ActionMessage = "Por favor, rellene todos los campos para realizar las modificaciones";
+                ViewBag.ActionClass = "salmon";
+                return View();
             }
 
             if (ModelState.IsValid)
@@ -117,7 +129,7 @@ namespace SistemaGestionRiesgos.Controllers
                 try
                 {
                     await _service.EditarRiesgo(riesgo);
-                    
+
                     TempData["ActionMessage"] = "Riesgo editado con éxito";
                     TempData["ActionClass"] = "light-green";
                     return RedirectToAction("Index", "Home");
@@ -134,10 +146,11 @@ namespace SistemaGestionRiesgos.Controllers
                     }
                 }
             }
-            
-            
+
             return View(riesgo);
         }
+
+
         
         
         [HttpPost]

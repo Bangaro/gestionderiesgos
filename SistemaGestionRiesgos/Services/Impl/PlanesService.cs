@@ -55,6 +55,7 @@ public class PlanesService: IPlanesService
             Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
+        await _context.SaveChangesAsync();
         
         _context.Update(planActual);
         await _context.SaveChangesAsync();
@@ -75,6 +76,7 @@ public class PlanesService: IPlanesService
             Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
+        await _context.SaveChangesAsync();
         
         _context.Planes.Remove(plan);
         await _context.SaveChangesAsync();

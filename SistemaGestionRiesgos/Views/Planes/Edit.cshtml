@@ -4,6 +4,30 @@
     ViewData["Title"] = "Edit";
 }
 
+
+
+<!--Mensaje desde los controladores-->
+
+@if (ViewBag.ActionMessage != null)
+{
+<div aria-live="assertive" aria-atomic="true" class="bg-dark fixed-top bd-example-toasts">
+    <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
+        <div class="toast @ViewBag.ActionClass">
+
+            <div class="toast-header d-flex justify-content-between">
+                <small>Hace un instante</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+
+            <div class="toast-body dark-gray-text">
+                @ViewBag.ActionMessage
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+
 <h1 class="text-center dark-gray-text">Editar Plan</h1>
 <hr />
 
@@ -19,7 +43,6 @@
                         <div class="form-group dark-gray-text">
                             <label asp-for="TipoPlan" class="control-label">Tipo de plan:</label>
                             <select asp-for="TipoPlan" class="form-control">
-                                <option value="">Seleccionar...</option>
                                 <option value="Continuidad" >Continuidad</option>
                                 <option value="Contingencia" >Contingencia</option>
                             </select>

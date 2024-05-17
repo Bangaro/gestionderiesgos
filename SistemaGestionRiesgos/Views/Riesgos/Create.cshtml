@@ -4,6 +4,29 @@
     ViewData["Title"] = "Create";
 }
 
+
+<!--Mensaje desde los controladores-->
+
+@if (ViewBag.ActionMessage != null)
+{
+<div aria-live="assertive" aria-atomic="true" class="bg-dark fixed-top bd-example-toasts">
+    <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
+        <div class="toast @ViewBag.ActionClass">
+
+            <div class="toast-header d-flex justify-content-between">
+                <small>Hace un instante</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+
+            <div class="toast-body dark-gray-text">
+                @ViewBag.ActionMessage
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+
 <h1 class="text-center dark-gray-text">Añadir Riesgo</h1>
 <hr />
 

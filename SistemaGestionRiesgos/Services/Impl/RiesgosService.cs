@@ -155,6 +155,7 @@ public class RiesgosService: IRiesgosService
             Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
+        await _context.SaveChangesAsync();
         
         _context.Update(riesgoActual);
         await _context.SaveChangesAsync();
@@ -181,6 +182,7 @@ public class RiesgosService: IRiesgosService
             Fecha = DateTime.Now
         };
         await _bitacoraService.CrearBitacora(bitacora);
+        await _context.SaveChangesAsync();
         
         _context.Riesgos.Remove(riesgo);
         await _context.SaveChangesAsync();
