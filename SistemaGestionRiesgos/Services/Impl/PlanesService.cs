@@ -24,6 +24,7 @@ public class PlanesService: IPlanesService
         plan.IdUsuario = user.IdUsuario;
         
         _context.Add(plan);
+        
         await _context.SaveChangesAsync();
 
         var bitacora = new Bitacora
@@ -41,7 +42,7 @@ public class PlanesService: IPlanesService
     {
         var planActual = _context.Planes.FirstOrDefault(p => p.IdPlan == plan.IdPlan);
 
-        planActual.IdUsuario = _usuariosService.ObtenerUsuarioConectado().Id;
+        Usuario UsuarioEditor = await _usuariosService.ObtenerUsuarioConectado();
         
         planActual.TipoPlan = plan.TipoPlan;
         planActual.Descripcion = plan.Descripcion;
@@ -49,16 +50,16 @@ public class PlanesService: IPlanesService
         var bitacora = new Bitacora
         {
             Descripcion = "" + plan.Descripcion,
-            IdUsuario = plan.IdUsuario,
+            IdUsuario = UsuarioEditor.IdUsuario,
             Tabla = "Planes",
             TipoAccion = "Editar",
             Fecha = DateTime.Now
         };
-        await _bitacoraService.CrearBitacora(bitacora);
-        await _context.SaveChangesAsync();
         
         _context.Update(planActual);
         await _context.SaveChangesAsync();
+        
+        await _bitacoraService.CrearBitacora(bitacora);
     }
 
     public async Task EliminarPlan(int id)

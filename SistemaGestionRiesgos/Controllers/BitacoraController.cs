@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaGestionRiesgos.Context;
@@ -20,6 +21,7 @@ namespace SistemaGestionRiesgos.Controllers
         //TODO: Puede hacerse con las cards de bootstrap
 
         // GET: BitacoraController
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var listaBitacoras = await _context.Bitacoras.ToListAsync();

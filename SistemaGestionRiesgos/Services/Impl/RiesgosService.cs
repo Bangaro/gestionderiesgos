@@ -137,28 +137,31 @@ public class RiesgosService: IRiesgosService
     {
         var riesgoActual = _context.Riesgos.FirstOrDefault(r => r.IdRiesgo == riesgo.IdRiesgo);
 
-        riesgoActual.IdUsuario = _usuariosService.ObtenerUsuarioConectado().Id;
+        Usuario? UsuarioEditor = await _usuariosService.ObtenerUsuarioConectado();
         
         riesgoActual.Probabilidad = riesgo.Probabilidad;
         riesgoActual.Impacto = riesgo.Impacto;
         riesgoActual.Causa = riesgo.Causa;
         riesgoActual.Titulo = riesgo.Titulo;
         riesgoActual.Consecuencia = riesgo.Consecuencia;
+        riesgoActual.Descripcion = riesgo.Descripcion;
         
         
         var bitacora = new Bitacora
         {
             Descripcion = "" + riesgo.Titulo,
-            IdUsuario = riesgoActual.IdUsuario,
+            IdUsuario = UsuarioEditor.IdUsuario,
             Tabla = "Riesgos",
             TipoAccion = "Editar",
             Fecha = DateTime.Now
         };
-        await _bitacoraService.CrearBitacora(bitacora);
-        await _context.SaveChangesAsync();
-        
+      
         _context.Update(riesgoActual);
         await _context.SaveChangesAsync();
+        
+        await _bitacoraService.CrearBitacora(bitacora);
+        
+        
     }
 
     public async Task EliminarRiesgo(int id)
